@@ -1,6 +1,6 @@
 image:
-  repository: yourdockerhub/student-backend
-  tag: "dev"
+  repository: thang05/typ-backend
+  tag: "v1.0.1"
   pullPolicy: IfNotPresent
 
 service:
