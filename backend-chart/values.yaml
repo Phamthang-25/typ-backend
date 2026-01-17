@@ -1,0 +1,18 @@
+image:
+  repository: yourdockerhub/student-backend
+  tag: "dev"
+  pullPolicy: IfNotPresent
+
+service:
+  name: student-backend
+  port: 3000
+
+env:
+  PORT: "3000"
+  DB_HOST: "student-mysql"
+  DB_PORT: "3306"
+  DB_NAME: "studentdb"
+  DB_USER: "appuser"
+  DB_PASSWORD: "apppass"
+
+resources: {}
