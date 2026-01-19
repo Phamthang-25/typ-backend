@@ -1,0 +1,51 @@
+pipeline {
+  agent any
+
+  options {
+    timestamps()
+  }
+
+  stages {
+    stage('Show info') {
+      steps {
+        echo "=== Webhook triggered OK ==="
+        sh 'date'
+        sh 'whoami'
+        sh 'pwd'
+        sh 'uname -a'
+        sh 'env | sort | sed -n "1,120p"'
+      }
+    }
+
+    stage('Checkout source') {
+      steps {
+        // Nếu bạn cấu hình "Pipeline script from SCM" thì stage này vẫn chạy bình thường,
+        // nhưng checkout thủ công cũng không sao.
+        checkout scm
+        sh 'ls -la'
+        sh 'git log -1 --oneline || true'
+        sh 'git describe --tags --always || true'
+      }
+    }
+
+    stage('Tag only (optional)') {
+      steps {
+        script {
+          // Khi push tag, Jenkins thường có GIT_BRANCH dạng "refs/tags/v1.0.1"
+          // Mình in ra để bạn nhìn cho rõ.
+          echo "GIT_BRANCH = ${env.GIT_BRANCH}"
+          echo "BRANCH_NAME = ${env.BRANCH_NAME}"
+        }
+      }
+    }
+  }
+
+  post {
+    success {
+      echo "DONE: pipeline ran successfully."
+    }
+    failure {
+      echo "FAILED: check console output."
+    }
+  }
+}
