@@ -1,5 +1,5 @@
 pipeline {
-  agent { label 'docker_builder' }
+  agent { label 'agent-lab' }
 
   environment {
     IMAGE_NAME = 'phamthang25/typ-backend'      
