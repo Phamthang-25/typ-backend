@@ -2,7 +2,7 @@ pipeline {
   agent { label 'agent-lab' }
 
   environment {
-    IMAGE_NAME = 'phamthang25/typ-backend'      
+    IMAGE_NAME = 'thang05/typ-backend'
     DOCKER_HUB_CREDENTIALS = 'dockerhub-creds'     
     GITHUB_CREDENTIALS = 'git-hub'        
     CONFIG_REPO_URL = 'https://github.com/Phamthang-25/typ-backend-config.git'
