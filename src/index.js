@@ -9,6 +9,35 @@ app.use(cors());
 app.use(express.json());
 
 const pool = createPoolFromEnv();
+const { v4: uuidv4 } = require("uuid");
+
+// -------------------- Request logging (JSON to stdout) --------------------
+app.use((req, res, next) => {
+  if (req.path === "/metrics") return next();
+
+  const requestId = req.header("x-request-id") || uuidv4();
+  res.setHeader("X-Request-Id", requestId);
+
+  const startNs = process.hrtime.bigint();
+
+  res.on("finish", () => {
+    const durationMs = Number((process.hrtime.bigint() - startNs) / 1000000n);
+
+    const log = {
+      time: new Date().toISOString(),
+      service: "student-backend",
+      request_id: requestId,
+      method: req.method,
+      path: req.originalUrl,
+      status: res.statusCode,
+      duration_ms: durationMs,
+    };
+
+    console.log(JSON.stringify(log));
+  });
+
+  next();
+});
 
 // -------------------- Prometheus metrics --------------------
 const register = new client.Registry();
