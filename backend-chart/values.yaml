@@ -15,4 +15,14 @@ env:
   DB_USER: "appuser"
   DB_PASSWORD: "apppass"
 
+ingress:
+  enabled: true
+  className: nginx
+  host: api.typ-app.local
+  path: /
+  tls:
+    enabled: true
+    secretName: typ-tls-secret
+  annotations: {}
+
 resources: {}
